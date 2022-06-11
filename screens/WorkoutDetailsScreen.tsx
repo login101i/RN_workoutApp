@@ -1,5 +1,8 @@
 import { NativeStackHeaderProps } from "@react-navigation/native-stack";
+import { useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { useWorkoutBySlug } from "../hooks/useWorkoutBySlug";
+import { getWorkoutBySlug } from "../storage/workout";
 
 type DetailParams = {
   route: {
@@ -12,10 +15,18 @@ type DetailParams = {
 type Navigation = NativeStackHeaderProps & DetailParams;
 
 export function WorkoutDetailsScreen({ route }: Navigation) {
+  const workoutBySlug = useWorkoutBySlug(route.params.slug);
 
+  if (!workoutBySlug) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.header}>Loading</Text>
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>{(route.params as any).slug}</Text>
+      <Text style={styles.header}>{workoutBySlug.name}</Text>
     </View>
   );
 }

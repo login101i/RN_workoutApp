@@ -6,10 +6,7 @@ import { useIsFocused } from "@react-navigation/native";
 export const useWorkouts = () => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const isFocused = useIsFocused();
-  console.log(
-    "🚀 ~ file: useWorkouts.ts ~ line 9 ~ useWorkouts ~ isFocused",
-    isFocused
-  );
+
 
   useEffect(() => {
     async function getData() {
