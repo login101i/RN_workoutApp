@@ -1,8 +1,9 @@
 import { NativeStackHeaderProps } from "@react-navigation/native-stack";
-import { useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { useEffect, useState } from "react";
+import { View, Text, StyleSheet, Button } from "react-native";
 import { useWorkoutBySlug } from "../hooks/useWorkoutBySlug";
-import { getWorkoutBySlug } from "../storage/workout";
+import { Modal } from "../components/styled/Modal";
+import { PressableText } from "../components/styled/PressableText";
 
 type DetailParams = {
   route: {
@@ -15,6 +16,7 @@ type DetailParams = {
 type Navigation = NativeStackHeaderProps & DetailParams;
 
 export function WorkoutDetailsScreen({ route }: Navigation) {
+  const [isModalVisible, setModalVisible] = useState(false);
   const workoutBySlug = useWorkoutBySlug(route.params.slug);
 
   if (!workoutBySlug) {
@@ -27,6 +29,18 @@ export function WorkoutDetailsScreen({ route }: Navigation) {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>{workoutBySlug.name}</Text>
+    
+       <Modal
+        activator={({handleOpen}) =>
+          <Button
+            onPress={handleOpen}
+            title="Custom Button"
+          />
+        }
+      >
+        <Text>text 1</Text>
+      </Modal>
+    
     </View>
   );
 }
