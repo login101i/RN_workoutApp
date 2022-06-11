@@ -1,4 +1,3 @@
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const storeData = async (key: string, value: any) => {
@@ -8,7 +7,7 @@ export const storeData = async (key: string, value: any) => {
   } catch (e: any) {
     console.error(e.message);
   }
-}
+};
 
 export const getData = async (key: string) => {
   try {
@@ -20,13 +19,21 @@ export const getData = async (key: string) => {
   } catch (e: any) {
     console.error(e.message);
   }
-}
+};
 
 export const containsKey = async (key: string) => {
-    try {
-      const keys = await AsyncStorage.getAllKeys();
-      return keys.includes(key);
-    } catch (e: any) {
-      console.error(e.message);
-    }
+  try {
+    const keys = await AsyncStorage.getAllKeys();
+    return keys.includes(key);
+  } catch (e: any) {
+    console.error(e.message);
   }
+};
+
+export const removeItem = async (key: string) => {
+  try {
+    await AsyncStorage.removeItem(key);
+  } catch (e: any) {
+    console.error(e.message);
+  }
+};
