@@ -1,15 +1,22 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Workout } from "../types/data";
+import { formatSec } from "../utils/time";
 
-export default function WorkoutItem({ item }: { item: Workout }) {
+export const WorkoutItem = ({ item, navigation }: { item: Workout }) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.name}>{item.name}</Text>
-      <Text style={styles.duration}>Duration: {item.duration}</Text>
-      <Text style={styles.difficulty}>Difficulty: {item.difficulty}</Text>
-    </View>
+    <Pressable
+      onPress={() => navigation.navigate("WorkoutDetails", { slug: item.slug })}
+    >
+      <View style={styles.container}>
+        <Text style={styles.name}>{item.name}</Text>
+        <Text style={styles.duration}>
+          Duration: {formatSec(item.duration)}{" "}
+        </Text>
+        <Text style={styles.difficulty}>Difficulty: {item.difficulty}</Text>
+      </View>
+    </Pressable>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
