@@ -5,9 +5,6 @@ import { useCachedResources } from "./hooks/useCachedResources";
 
 export default function App() {
   const isLoaded = useCachedResources();
-  console.log("🚀 ~ file: App.tsx ~ line 9 ~ App ~ isLoaded", isLoaded);
-
-
 
   if (isLoaded) {
     return (

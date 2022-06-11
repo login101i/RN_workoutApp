@@ -14,19 +14,12 @@ import { Workout } from "../types/data";
 import { WorkoutItem } from "../components/WorkoutItem";
 import { MontserratText } from "../components/styled/MonteserratText";
 import { getWorkouts } from "../storage/workout";
+import { useWorkouts } from "../hooks/useWorkouts";
 
 
 export default function HomeScreen({ navigation }: NativeStackHeaderProps) {
-  const [workouts, setWorkouts] = useState<Workout[]>([]);
-
-  useEffect(() => {
-    async function getData() {
-      const _workouts = await getWorkouts();
-      setWorkouts(_workouts);
-    }
-
-    getData();
-  }, []);
+ 
+  const workouts= useWorkouts()
 
   return (
     <View style={styles.container}>

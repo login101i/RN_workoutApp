@@ -12,7 +12,6 @@ type DetailParams = {
 type Navigation = NativeStackHeaderProps & DetailParams;
 
 export function WorkoutDetailsScreen({ route }: Navigation) {
-  console.log(route.params as any);
 
   return (
     <View style={styles.container}>
