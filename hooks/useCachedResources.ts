@@ -1,32 +1,31 @@
-import { storeData, getData } from './../storage/index';
 
 import { useEffect, useState } from "react";
 import * as Font from "expo-font";
-import { data } from '../data';
+import { initWorkouts, getWorkouts } from "../storage/workout";
 
-export  function useCachedResources() {
+export function useCachedResources() {
   const [isLoadingComplete, setIsLoadingComplete] = useState(false);
+  const [workouts, setWorkouts] = useState({});
 
   useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
         await Font.loadAsync({
-          "montserrat": require("../assets/fonts/Montserrat-Regular.ttf"),
-          "montserrat-bold": require("../assets/fonts/Montserrat-Bold.ttf"),
-        })
-
-        await storeData("workout-data", data);
+          montserrat: require("../assets/fonts/Montserrat-Regular.ttf"),
+          "montserrat-bold": require("../assets/fonts/Montserrat-Bold.ttf")
+        });
+        await initWorkouts()
       } catch (e) {
         console.warn(e);
       } finally {
-        const workouts = await getData("workout-data");
-        console.log("🚀 ~ file: useCachedResources.ts ~ line 23 ~ loadResourcesAndDataAsync ~ workouts", workouts)
+        const workouts = await getWorkouts()
+        setWorkouts(workouts);
         setIsLoadingComplete(true);
       }
     }
 
     loadResourcesAndDataAsync();
-  }, [])
+  }, []);
 
-  return isLoadingComplete;
+  return { isLoadingComplete, workouts };
 }

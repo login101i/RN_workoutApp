@@ -15,6 +15,8 @@ import { WorkoutItem } from "../components/WorkoutItem";
 import { MontserratText } from "../components/styled/MonteserratText";
 
 export default function HomeScreen({ navigation }: NativeStackHeaderProps) {
+ 
+
   return (
     <View style={styles.container}>
       <MontserratText>New Workouts</MontserratText>
