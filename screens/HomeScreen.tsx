@@ -1,14 +1,18 @@
 import { useEffect } from "react";
 import { View, Text, Button, FlatList, StyleSheet } from "react-native";
+import { NativeStackHeaderProps } from "@react-navigation/native-stack";
+
 import {data} from "../data"
 import { Workout } from "../types/data";
 import WorkoutItem from "../components/WorkoutItem";
+import { MontserratText } from "../components/styled/MonteserratText";
 
-export default function HomeScreen({ navigation }: any) {
+
+export default function HomeScreen({ navigation }: NativeStackHeaderProps) {
 
   return (
     <View style={styles.container}>
-            <Text style={styles.header}>New Workouts</Text>
+            <MontserratText>New Workouts</MontserratText>
       <FlatList
                data={data as Workout[]}
 
@@ -25,8 +29,8 @@ const styles = StyleSheet.create({
     flex:1
   },
   header: {
-    fontSize: 20,
+    fontSize: 28,
     marginBottom: 20,
-    fontWeight: "bold"
+    fontWeight: "bold",
   }
 });
