@@ -1,19 +1,44 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { ReactNode } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  ViewStyle,
+  StyleProp
+} from "react-native";
 import { Workout } from "../types/data";
 import { formatSec } from "../utils/time";
 
-export const WorkoutItem = ({ item, navigation }: { item: Workout }) => {
+export const WorkoutItem = ({
+  item,
+  children,
+  navigation,
+  childStyles
+}: {
+  item: Workout;
+  children?: ReactNode;
+  childStyles?: StyleProp<ViewStyle>;
+}) => {
   return (
     <Pressable
-      onPress={() => navigation.navigate("WorkoutDetails", { slug: item.slug })}
+      onPress={() =>
+        !children
+          ? navigation.navigate("WorkoutDetails", { slug: item.slug })
+          : null
+      }
     >
-      <View style={styles.container}>
-        <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.duration}>
-          Duration: {formatSec(item.duration)}{" "}
-        </Text>
-        <Text style={styles.difficulty}>Difficulty: {item.difficulty}</Text>
-      </View>
+      <>
+        {" "}
+        <View style={styles.container}>
+          <Text style={styles.name}>{item.name}</Text>
+          <Text style={styles.duration}>
+            Duration: {formatSec(item.duration)}{" "}
+          </Text>
+          <Text style={styles.difficulty}>Difficulty: {item.difficulty}</Text>
+          {children && <View style={childStyles}>{children}</View>}
+        </View>
+      </>
     </Pressable>
   );
 };
