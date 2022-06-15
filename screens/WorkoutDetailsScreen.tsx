@@ -7,6 +7,7 @@ import { PressableText } from "../components/styled/PressableText";
 import { WorkoutItem } from "../components/WorkoutItem";
 import { formatSec } from "../utils/time";
 import { FontAwesome } from "@expo/vector-icons";
+import { SequenceItem } from "../types/data";
 
 type DetailParams = {
   route: {
@@ -20,7 +21,30 @@ type Navigation = NativeStackHeaderProps & DetailParams;
 
 export function WorkoutDetailsScreen({ route }: Navigation) {
   const [isModalVisible, setModalVisible] = useState(false);
+  const [sequence, setSequence] = useState<SequenceItem[]>([])
+  const [countDown, setCountDown] = useState(-1);
+  const [trackerIdx, setTrackerIdx] = useState(-1);
   const workoutBySlug = useWorkoutBySlug(route.params.slug);
+  console.log("🚀 ~ file: WorkoutDetailsScreen.tsx ~ line 26 ~ WorkoutDetailsScreen ~ workoutBySlug", workoutBySlug)
+
+  const addItemToSequence = (idx: number) => {
+    setSequence([...sequence, workoutBySlug!.sequence[idx]])
+    setTrackerIdx(idx)
+  }
+
+  useEffect(() => {
+    if (trackerIdx == -1) { return; }
+    setCountDown(workoutBySlug!.sequence[trackerIdx].duration)
+
+    const intervalId = window.setInterval(() => {
+      setCountDown((count) => {
+        console.log(count);
+        return count - 1;
+      })
+    }, 1000)
+
+    return () => window.clearInterval(intervalId)
+  }, [trackerIdx])
 
   if (!workoutBySlug) {
     return (
@@ -55,6 +79,16 @@ export function WorkoutDetailsScreen({ route }: Navigation) {
           </View>
         </Modal>
       </WorkoutItem>
+      <View>
+      { sequence.length === 0 &&
+          <FontAwesome
+            name="play-circle-o"
+            size={100}
+            onPress={() => addItemToSequence(0)}
+          />
+        }
+        {countDown}
+      </View>
     </View>
   );
 }
